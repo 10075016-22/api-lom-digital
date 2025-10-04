@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CategorieController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -31,6 +32,9 @@ Route::middleware([JwtMiddleware::class])->group(function () {
 
         // roles
         Route::resource("/roles", RoleController::class);
+
+        // categories
+        Route::resource("/categories", CategorieController::class);
     });
 
     // associated to tables

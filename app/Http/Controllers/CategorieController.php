@@ -2,25 +2,28 @@
 
 namespace App\Http\Controllers;
 
+use App\Interface\ResponseClass;
 use App\Models\Categorie;
 use Illuminate\Http\Request;
 
 class CategorieController extends Controller
 {
+    protected $response;
+    public function __construct(ResponseClass $response)
+    {
+        $this->response = $response;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        try {
+            $categories = Categorie::get();
+            return $this->response->success($categories);
+        } catch (\Throwable $th) {
+            return $this->response->error('An error has occurred' . $th->getMessage());
+        }
     }
 
     /**
@@ -28,38 +31,61 @@ class CategorieController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            $category = Categorie::create($request->all());
+            return $this->response->success($category);
+        } catch (\Throwable $th) {
+            return $this->response->error('An error has occurred' . $th->getMessage());
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Categorie $categorie)
+    public function show($id)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Categorie $categorie)
-    {
-        //
+        try {
+            $category = Categorie::find($id);
+            if (!$category) {
+                return $this->response->notFound('Category not found');
+            }
+            return $this->response->success($category);
+        } catch (\Throwable $th) {
+            return $this->response->error('An error has occurred' . $th->getMessage());
+        }
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Categorie $categorie)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+            $category = Categorie::find($id);
+            if (!$category) {
+                return $this->response->notFound('Category not found');
+            }
+            $category->update($request->all());
+            return $this->response->success($category);
+        } catch (\Throwable $th) {
+            return $this->response->error('An error has occurred' . $th->getMessage());
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Categorie $categorie)
+    public function destroy($id)
     {
-        //
+        try {   
+            $category = Categorie::find($id);
+            if (!$category) {
+                return $this->response->notFound('Category not found');
+            }
+            $category->delete();
+            return $this->response->success([]);
+        } catch (\Throwable $th) {
+            return $this->response->error('An error has occurred' . $th->getMessage());
+        }
     }
 }
