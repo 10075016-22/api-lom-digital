@@ -11,6 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
+        // 
         Schema::create('playlist_media_files', function (Blueprint $table) {
             $table->id();
 

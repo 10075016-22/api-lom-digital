@@ -62,7 +62,7 @@ class TableController extends Controller
             $configuration = HeadersTable::whereTableId($id)->with(['type_field'])->orderBy('order')->get();
             return $this->response->success($configuration);
         } catch (\Throwable $th) {
-            return $this->response->error('Ha ocurrido un error');
+            return $this->response->error('Ha ocurrido un error'.$th->getMessage());
         }
     }
 

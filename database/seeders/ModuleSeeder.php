@@ -14,15 +14,41 @@ class ModuleSeeder extends Seeder
     public function run(): void
     {
         $modules = [
-            // [
-            //     'module'      => 'Home',
-            //     'description' => 'Modulo principal',
-            //     'icon'  => 'mdi-home',
-            //     'name'  => 'home',
-            //     'order' => 1,
-            //     'status' => 1,
-            //     'permission_id' => 1
-            // ],
+            [
+                'module'      => 'MODULE.HOME',
+                'description' => 'Modulo principal',
+                'icon'  => 'HomeIcon',
+                'name'  => 'academyHome',
+                'order' => 1,
+            ],
+            [
+                'module'      => 'MODULE.USERS',
+                'description' => 'Usuarios',
+                'icon'  => 'UserIcon',
+                'name'  => 'academyUsers',
+                'order' => 2
+            ],
+            [
+                'module'      => 'MODULE.ROLES',
+                'description' => 'Roles',
+                'icon'  => 'UserCircleIcon',
+                'name'  => 'academyRoles',
+                'order' => 3
+            ],
+            [
+                'module'      => 'MODULE.MEDIA',
+                'description' => 'Multimedia',
+                'icon'  => 'VideoCameraIcon',
+                'name'  => 'academyMedia',
+                'order' => 4
+            ],
+            [
+                'module'      => 'MODULE.CATEGORIES',
+                'description' => 'Categorías',
+                'icon'  => 'FolderIcon',
+                'name'  => 'academyCategories',
+                'order' => 5
+            ],
         ];
 
         // Utiliza un bucle foreach para insertar cada conjunto de datos

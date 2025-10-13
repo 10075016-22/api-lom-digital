@@ -2,64 +2,142 @@
 
 namespace App\Http\Controllers;
 
+use App\Interface\ResponseClass;
+use App\Models\Categorie;
 use App\Models\MediaFile;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class MediaFileController extends Controller
 {
+    protected $response;
+    public function __construct(ResponseClass $response)
+    {
+        $this->response = $response;
+    }
     /**
      * Display a listing of the resource.
      */
     public function index()
     {
-        //
+        try {
+            $mediaFiles = MediaFile::with('user', 'category')->get();
+            return $this->response->success($mediaFiles);
+        } catch (\Throwable $th) {
+            return $this->response->error('An error has occurred');
+        }
     }
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
+    public function indexDatatable(Request $request) 
     {
-        //
+        try {
+            $params = $request->query();
+
+            if(isset($params['page']) && isset($params['limit'])) {
+                $page  = max(1, intval($params['page']));
+                $limit = max(1, intval($params['limit']));
+                $offset = ($page - 1) * $limit;
+
+                $data = MediaFile::orderBy('id', 'DESC')
+                    ->offset($offset)
+                    ->limit($limit)
+                    ->get();
+            } else {
+                $data = MediaFile::orderBy('id', 'DESC')->get();
+            }
+
+            $total = MediaFile::count();
+            return $this->response->success([
+                'data'  => $data,
+                'total' => $total
+            ]);
+        } catch (\Throwable $th) {
+            return $this->response->error('Ha ocurrido un error');
+        }
     }
+
 
     /**
      * Store a newly created resource in storage.
+     * @param Request $request
      */
     public function store(Request $request)
     {
-        //
+        try { 
+            // categoria
+            $category = Categorie::find($request->category_id);
+            if (!$category) {
+                return $this->response->notFound('Category not found');
+            }
+            
+            // subir archivo a la storage categoria/nombre_archivo
+            if (!$request->hasFile('file')) {
+                return $this->response->error('File not found');
+            }
+            $file = $request->file('file');
+            $path = $file->store($category->name, 'media_files');
+
+            $mediaFile = MediaFile::create([
+                'user_id'     => $request->user_id,
+                'category_id' => $request->category_id,
+                'title'       => $request->title,
+                'description' => $request->description,
+                'tags' => $request->tags,
+                'size' => $file->getSize(), // en bytes
+                'path' => $path
+            ]);
+            return $this->response->success($mediaFile);
+        } catch (\Throwable $th) {
+            return $this->response->error('An error has occurred');
+        }
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(MediaFile $mediaFile)
+    public function show($id)
     {
-        //
+        try {
+            $mediaFile = MediaFile::with('user', 'category')->find($id);
+            if (!$mediaFile) {
+                return $this->response->notFound('Media file not found');
+            }
+            return $this->response->success($mediaFile);
+        } catch (\Throwable $th) {
+            return $this->response->error('An error has occurred');
+        }
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(MediaFile $mediaFile)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, MediaFile $mediaFile)
+    public function update(Request $request, $id)
     {
-        //
+        try {
+
+        } catch (\Throwable $th) {
+            return $this->response->error('An error has occurred');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(MediaFile $mediaFile)
+    public function destroy($id)
     {
-        //
+        try {
+            $mediaFile = MediaFile::find($id);
+            if (!$mediaFile) {
+                return $this->response->notFound('Media file not found');
+            }
+            // borrar archivo de la storage
+            Storage::disk('media_files')->delete($mediaFile->path);
+            // borrar archivo de la base de datos
+            $mediaFile->delete();
+            return $this->response->success([]);
+        } catch (\Throwable $th) {
+            return $this->response->error('An error has occurred');
+        }
     }
 }

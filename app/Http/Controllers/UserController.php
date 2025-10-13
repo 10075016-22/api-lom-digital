@@ -118,9 +118,18 @@ class UserController extends Controller
                 $data = User::orderBy('id', 'DESC')
                     ->offset($offset)
                     ->limit($limit)
-                    ->get();
+                    ->get()
+                    ->map(function($user) {
+                        $user->role = $user->getRoleNames()->first();
+                        $user->status = $user->status == 1 ? 'Activo' : 'Inactivo';
+                        return $user;
+                    });
             } else {
-                $data = User::orderBy('id', 'DESC')->get();
+                $data = User::orderBy('id', 'DESC')->get()->map(function($user) {
+                    $user->role = $user->getRoleNames()->first();
+                    $user->status = $user->status == 1 ? 'Activo' : 'Inactivo';
+                    return $user;
+                });
             }
 
             $total = User::count();

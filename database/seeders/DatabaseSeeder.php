@@ -17,11 +17,18 @@ class DatabaseSeeder extends Seeder
             // Confiuraciones iniciales de tablas, permisos y perfiles
             TableSeeder::class,
             HeadersTableSeeder::class,
+            TypeFieldSeeder::class,
             PermissionSeeder::class,
             RoleSeeder::class,
 
             UserSeeder::class,
             ModuleSeeder::class,
+
+            // headers tables
+            UserHeadersTables::class,
+            RoleHeadersTables::class,
+            CategoryHeadersTables::class,
+            MediaHeadersTables::class
 
         ]);
     }

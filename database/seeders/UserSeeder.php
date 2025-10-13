@@ -23,5 +23,11 @@ class UserSeeder extends Seeder
 
 
         $user->assignRole('SuperAdmin'); // Reemplaza 'admin' con el nombre del rol
+
+
+        // creamos 50 usuarios usando el factory
+        User::factory()->count(50)->create()->each(function ($user) {
+            $user->assignRole('Estudiante');
+        });
     }
 }

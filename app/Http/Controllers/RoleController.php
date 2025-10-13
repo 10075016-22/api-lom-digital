@@ -29,21 +29,31 @@ class RoleController extends Controller
         }
     }
 
-    public function gridIndex(Request $request) 
+    public function indexDatatable(Request $request) 
     {
         try {
             $params = $request->query();
-            $table = Table::whereId($params['nIdTable'])->first() ?? (Object) [];
-            $headers = HeadersTable::whereTableId($params['nIdTable'])->orderBy('order')->get();
-            $data = Role::get();
 
+            if(isset($params['page']) && isset($params['limit'])) {
+                $page  = max(1, intval($params['page']));
+                $limit = max(1, intval($params['limit']));
+                $offset = ($page - 1) * $limit;
+
+                $data = Role::orderBy('id', 'DESC')
+                    ->offset($offset)
+                    ->limit($limit)
+                    ->get();
+            } else {
+                $data = Role::orderBy('id', 'DESC')->get();
+            }
+
+            $total = Role::count();
             return $this->response->success([
                 'data'  => $data,
-                'tabla' => $table,
-                'headers' => $headers
+                'total' => $total
             ]);
         } catch (\Throwable $th) {
-            return response()->json([]);
+            return $this->response->error('Ha ocurrido un error');
         }
     }
 

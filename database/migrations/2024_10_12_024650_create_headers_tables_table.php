@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             
             $table->unsignedBigInteger('table_id');
+            $table->unsignedBigInteger('type_field_id')->default(1);
             $table->string('text');
             $table->string('value');
             $table->unsignedTinyInteger('sortable')->default(0);
@@ -27,6 +28,7 @@ return new class extends Migration
             $table->softDeletes();
 
             $table->foreign('table_id')->references('id')->on('tables');
+            $table->foreign('type_field_id')->references('id')->on('type_fields');
         });
     }
 

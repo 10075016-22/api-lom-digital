@@ -1,6 +1,8 @@
 <?php
 
+use App\Http\Controllers\AcademyDashboardController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\MediaFileController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionController;
 use App\Http\Controllers\RoleController;
@@ -31,10 +33,20 @@ Route::middleware([JwtMiddleware::class])->group(function () {
         Route::resource("/permissions", PermissionController::class);
 
         // roles
+        Route::get("/roles/datatable", [RoleController::class, 'indexDatatable']);
         Route::resource("/roles", RoleController::class);
 
         // categories
+        Route::get("/categories/datatable", [CategorieController::class, 'indexDatatable']);
         Route::resource("/categories", CategorieController::class);
+
+        // media files
+        Route::get("/media-files/datatable", [MediaFileController::class, 'indexDatatable']);
+        Route::resource("/media-files", MediaFileController::class);
+
+
+        // dashboard academy
+        Route::get("/dashboard/academy", [AcademyDashboardController::class, "cardIndicatorsDashboard"]);
     });
 
     // associated to tables

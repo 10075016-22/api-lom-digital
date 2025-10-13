@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('name');
             $table->unsignedInteger('order');
             $table->unsignedTinyInteger('status')->default(1);
-            $table->unsignedBigInteger('permission_id');
+            $table->unsignedBigInteger('permission_id')->nullable();
             $table->timestamps();
 
             $table->softDeletes();
