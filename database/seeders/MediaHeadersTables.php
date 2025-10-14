@@ -72,7 +72,7 @@ class MediaHeadersTables extends Seeder
                 'table_id'      => 4,
                 'type_field_id' => 4,
                 'text'          => 'HEADERS_TABLES.PATH',
-                'value'         => 'path',
+                'value'         => 'url',
                 'sortable'      => 1,
                 'width'         => '200',
                 'fixed'         => 0,

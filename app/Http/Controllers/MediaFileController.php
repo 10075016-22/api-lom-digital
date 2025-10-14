@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Interface\ResponseClass;
+use App\Models\AtachmentMedia;
 use App\Models\Categorie;
 use App\Models\MediaFile;
 use Illuminate\Http\Request;
@@ -46,6 +47,7 @@ class MediaFileController extends Controller
                     ->map(function($item) {
                         $item->categoryName = $item->category->name;
                         $item->userName = $item->user->name;
+                        $item->url = Storage::disk('media_files')->url($item->path);
                         $item->statusString = $item->status == 1 ? 'Activo' : 'Inactivo';
                         return $item;
                     });
@@ -53,6 +55,7 @@ class MediaFileController extends Controller
                 $data = MediaFile::with(['user', 'category'])->orderBy('id', 'DESC')->get()->map(function($item) {
                     $item->categoryName = $item->category->name;
                     $item->userName = $item->user->name;
+                    $item->url = Storage::disk('media_files')->url($item->path);
                     $item->statusString = $item->status == 1 ? 'Activo' : 'Inactivo';
                     return $item;
                 });
@@ -86,8 +89,12 @@ class MediaFileController extends Controller
             if (!$request->hasFile('file')) {
                 return $this->response->error('File not found');
             }
+
             $file = $request->file('file');
             $path = $file->store($category->name, 'media_files');
+
+            // validamos que en el formData del request exista un campo attachments 
+            // Esta campo llega asì attachments[0][title], attachments[0][description], attachments[0][file] es decir un array de attachments
 
             $mediaFile = MediaFile::create([
                 'user_id'     => $request->user_id,
@@ -98,9 +105,33 @@ class MediaFileController extends Controller
                 'size' => $file->getSize(), // en bytes
                 'path' => $path
             ]);
+
+
+            // se valida si viene attachments - sino no pasa nada
+            if ($request->has('attachments')) {
+                // Se recorre el array de attachments
+                foreach ($request->attachments as $attachment) {
+                    // se valida el tipo 
+                    if ($attachment['type'] == 'file') {
+                        $attachmentFile = $attachment['file'];
+                        $attachmentPath = $attachmentFile->store($category->name, 'media_files');
+                    }
+                    if ($attachment['type'] == 'link') {
+                        $attachmentPath = $attachment['url'];
+                    }
+                    // se crea el archivo adjunto
+                    AtachmentMedia::create([
+                        'media_file_id' => $mediaFile->id,
+                        'title'         => $attachment['title'],
+                        'description'   => $attachment['description'],
+                        'path'          => $attachmentPath,
+                    ]);
+                }
+            }
+
             return $this->response->success($mediaFile);
         } catch (\Throwable $th) {
-            return $this->response->error('An error has occurred');
+            return $this->response->error('An error has occurred'.$th->getMessage());
         }
     }
 

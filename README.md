@@ -63,6 +63,11 @@ php artisan jwt:secret
 
 This command will generate a new secret key and store it in the .env file.
 
+This command is used to create a symbolic link from `public/storage` to `storage/app/public`, allowing files stored with Laravel's Storage facade to be publicly accessible from the web.
+
+```
+php artisan storage:link
+```
 
 That's it! Your project should now be set up and ready to use.
 
