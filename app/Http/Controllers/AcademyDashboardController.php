@@ -31,19 +31,19 @@ class AcademyDashboardController extends Controller
                     'title' => 'DASHBOARD.CARD_INDICATORS.MEDIA',
                     'value' => $this->getMediaFilesCount()['value'],
                     'percentage' => $this->getMediaFilesCount()['percentage'],
-                    'icon' => 'UserIcon'
+                    'icon' => 'VideoCameraIcon'
                 ],
                 [
                     'title' => 'DASHBOARD.CARD_INDICATORS.CATEGORIES',
                     'value' => $this->getCategoriesCount()['value'],
                     'percentage' => $this->getCategoriesCount()['percentage'],
-                    'icon' => 'UserIcon'
+                    'icon' => 'FolderIcon'
                 ],
                 [
                     'title' => 'DASHBOARD.CARD_INDICATORS.ROLES',
                     'value' => $this->getRolesCount()['value'],
                     'percentage' => $this->getRolesCount()['percentage'],
-                    'icon' => 'UserIcon'
+                    'icon' => 'UserCircleIcon'
                 ],
             ];
             return $this->response->success($data);

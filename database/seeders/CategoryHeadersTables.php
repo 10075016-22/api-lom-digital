@@ -15,15 +15,48 @@ class CategoryHeadersTables extends Seeder
     {
         $data = [
             [
-                'table_id' => 3,
+                'table_id'      => 3,
                 'type_field_id' => 1,
-                'text'     => 'HEADERS_TABLES.CATEGORY',
-                'value'    => 'name',
-                'sortable' => 1,
-                'width'    => '',
-                'fixed'    => 0,
-                'alignment' => 0,
-                'order'     => 1
+                'text'          => 'HEADERS_TABLES.CATEGORY',
+                'value'         => 'name',
+                'sortable'      => 1,
+                'width'         => '',
+                'fixed'         => 0,
+                'alignment'     => 0,
+                'order'         => 1
+            ],
+            [
+                'table_id'      => 3,
+                'type_field_id' => 1,
+                'text'          => 'HEADERS_TABLES.DESCRIPTION',
+                'value'         => 'description',
+                'sortable'      => 1,
+                'width'         => '',
+                'fixed'         => 0,
+                'alignment'     => 0,
+                'order'         => 1
+            ],
+            [
+                'table_id'      => 3,
+                'type_field_id' => 8,
+                'text'          => 'HEADERS_TABLES.COLOR',
+                'value'         => 'color',
+                'sortable'      => 1,
+                'width'         => '',
+                'fixed'         => 0,
+                'alignment'     => 0,
+                'order'         => 1
+            ],
+            [
+                'table_id'      => 3,
+                'type_field_id' => 7,
+                'text'          => 'HEADERS_TABLES.STATUS',
+                'value'         => 'statusString',
+                'sortable'      => 1,
+                'width'         => '',
+                'fixed'         => 0,
+                'alignment'     => 0,
+                'order'         => 1
             ],
         ];
 

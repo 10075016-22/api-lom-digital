@@ -40,9 +40,16 @@ class CategorieController extends Controller
                 $data = Categorie::orderBy('id', 'DESC')
                     ->offset($offset)
                     ->limit($limit)
-                    ->get();
+                    ->get()
+                    ->map(function($item) {
+                        $item->statusString = $item->status == 1 ? 'Activo' : 'Inactivo';
+                        return $item;
+                    });
             } else {
-                $data = Categorie::orderBy('id', 'DESC')->get();
+                $data = Categorie::orderBy('id', 'DESC')->get()->map(function($item) {
+                    $item->statusString = $item->status == 1 ? 'Activo' : 'Inactivo';
+                    return $item;
+                });
             }
 
             $total = Categorie::count();
@@ -61,6 +68,12 @@ class CategorieController extends Controller
     public function store(Request $request)
     {
         try {
+
+            // Validamos si el nombre de la categoría existe
+            if (Categorie::where('name', $request->name)->exists()) {
+                return $this->response->error('El nombre de la categoría ya existe');
+            }
+
             $category = Categorie::create($request->all());
             return $this->response->success($category);
         } catch (\Throwable $th) {

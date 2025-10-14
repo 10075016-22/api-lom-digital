@@ -168,6 +168,17 @@ class UserController extends Controller
     public function store(Request $request)
     {
         try {
+
+            // Validamos si el email existe
+            if (User::where('email', $request->email)->exists()) {
+                return $this->response->error('El email ya existe');
+            }
+
+            // Validamos si el nombre de usuario existe
+            if (User::where('name', $request->name)->exists()) {
+                return $this->response->error('El nombre de usuario ya existe');
+            }
+            
             $user = [
                 'name'      => $request->name,
                 'fullname'  => $request->fullname,

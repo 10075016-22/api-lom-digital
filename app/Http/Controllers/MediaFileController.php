@@ -38,12 +38,24 @@ class MediaFileController extends Controller
                 $limit = max(1, intval($params['limit']));
                 $offset = ($page - 1) * $limit;
 
-                $data = MediaFile::orderBy('id', 'DESC')
+                $data = MediaFile::with(['user', 'category'])
+                    ->orderBy('id', 'DESC')
                     ->offset($offset)
                     ->limit($limit)
-                    ->get();
+                    ->get()
+                    ->map(function($item) {
+                        $item->categoryName = $item->category->name;
+                        $item->userName = $item->user->name;
+                        $item->statusString = $item->status == 1 ? 'Activo' : 'Inactivo';
+                        return $item;
+                    });
             } else {
-                $data = MediaFile::orderBy('id', 'DESC')->get();
+                $data = MediaFile::with(['user', 'category'])->orderBy('id', 'DESC')->get()->map(function($item) {
+                    $item->categoryName = $item->category->name;
+                    $item->userName = $item->user->name;
+                    $item->statusString = $item->status == 1 ? 'Activo' : 'Inactivo';
+                    return $item;
+                });
             }
 
             $total = MediaFile::count();

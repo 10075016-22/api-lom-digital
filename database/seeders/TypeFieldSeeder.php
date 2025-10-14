@@ -18,6 +18,34 @@ class TypeFieldSeeder extends Seeder
                 'name'        => 'FIELD_TEXT',
                 'description' => 'Campo tipo texto'
             ],
+            [
+                'name'        => 'FIELD_NUMBER',
+                'description' => 'Campo tipo numero'
+            ],
+            [
+                'name'        => 'FIELD_DATE',
+                'description' => 'Campo tipo fecha'
+            ],
+            [
+                'name'        => 'FIELD_LINK',
+                'description' => 'Campo tipo link'
+            ],
+            [
+                'name'        => 'FIELD_IMAGE',
+                'description' => 'Campo tipo imagen'
+            ],
+            [
+                'name'        => 'FIELD_TAGS',
+                'description' => 'Campo tipo tags'
+            ],
+            [
+                'name'        => 'FIELD_STATUS',
+                'description' => 'Campo tipo status'
+            ],
+            [
+                'name'        => 'FIELD_COLOR',
+                'description' => 'Campo tipo color'
+            ]
         ];
 
         foreach ($data as $key => $value) {

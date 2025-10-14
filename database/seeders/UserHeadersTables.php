@@ -60,7 +60,7 @@ class UserHeadersTables extends Seeder
             ],
             [
                 'table_id' => 1,
-                'type_field_id' => 1,
+                'type_field_id' => 7,
                 'text'     => 'HEADERS_TABLES.STATUS',
                 'value'    => 'status',
                 'sortable' => 1,
