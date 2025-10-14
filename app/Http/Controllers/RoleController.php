@@ -63,8 +63,25 @@ class RoleController extends Controller
     public function store(Request $request)
     {
         try {
-            $role = Role::create($request->all());
-            return $this->response->success($role);
+            // Validamos campos requeridos
+            if (!$request->has('name') || empty($request->name)) {
+                return $this->response->error('El campo name es requerido');
+            }
+
+            if (!$request->has('permissions') || !is_array($request->permissions) || empty($request->permissions)) {
+                return $this->response->error('El array de permissions es requerido');
+            }
+
+            // Validamos si el nombre del rol existe
+            if (Role::where('name', $request->name)->exists()) {
+                return $this->response->error('El nombre del rol ya existe');
+            }
+
+            $role = Role::create(['name' => $request->name]);
+
+            $role->syncPermissions($request->permissions); // Asignamos los permisos al rol
+
+            return $this->response->success($role, 'Perfil creado correctamente');
         } catch (\Throwable $th) {
             return $this->response->error('An error has occurred');
         }

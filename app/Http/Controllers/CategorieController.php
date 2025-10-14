@@ -75,7 +75,7 @@ class CategorieController extends Controller
             }
 
             $category = Categorie::create($request->all());
-            return $this->response->success($category);
+            return $this->response->success($category, 'Categoría creada correctamente');
         } catch (\Throwable $th) {
             return $this->response->error('An error has occurred' . $th->getMessage());
         }
