@@ -28,9 +28,6 @@ class DatabaseSeeder extends Seeder
             CategoryHeadersTables::class,
             MediaHeadersTables::class,
 
-            // seeders de prueba
-            CategorieSeeder::class,
-            MediaFileSeeder::class,
 
         ]);
     }

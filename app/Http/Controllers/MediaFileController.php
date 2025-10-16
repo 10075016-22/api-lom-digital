@@ -97,7 +97,7 @@ class MediaFileController extends Controller
             // Esta campo llega asì attachments[0][title], attachments[0][description], attachments[0][file] es decir un array de attachments
 
             $mediaFile = MediaFile::create([
-                'user_id'     => $request->user_id,
+                'user_id'     => auth()->user()->id,
                 'category_id' => $request->category_id,
                 'title'       => $request->title,
                 'description' => $request->description,
