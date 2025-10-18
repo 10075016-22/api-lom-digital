@@ -17,13 +17,24 @@ class CategoryHeadersTables extends Seeder
             [
                 'table_id'      => 3,
                 'type_field_id' => 1,
+                'text'          => 'HEADERS_TABLES.ID',
+                'value'         => 'id',
+                'sortable'      => 1,
+                'width'         => '50',
+                'fixed'         => 0,
+                'alignment'     => 0,
+                'order'         => 1
+            ],
+            [
+                'table_id'      => 3,
+                'type_field_id' => 1,
                 'text'          => 'HEADERS_TABLES.CATEGORY',
                 'value'         => 'name',
                 'sortable'      => 1,
                 'width'         => '',
                 'fixed'         => 0,
                 'alignment'     => 0,
-                'order'         => 1
+                'order'         => 2
             ],
             [
                 'table_id'      => 3,
@@ -34,7 +45,7 @@ class CategoryHeadersTables extends Seeder
                 'width'         => '',
                 'fixed'         => 0,
                 'alignment'     => 0,
-                'order'         => 1
+                'order'         => 3
             ],
             [
                 'table_id'      => 3,
@@ -45,7 +56,7 @@ class CategoryHeadersTables extends Seeder
                 'width'         => '',
                 'fixed'         => 0,
                 'alignment'     => 0,
-                'order'         => 1
+                'order'         => 4
             ],
             [
                 'table_id'      => 3,
@@ -56,7 +67,7 @@ class CategoryHeadersTables extends Seeder
                 'width'         => '',
                 'fixed'         => 0,
                 'alignment'     => 0,
-                'order'         => 1
+                'order'         => 5
             ],
         ];
 

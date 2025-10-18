@@ -16,57 +16,68 @@ class MediaHeadersTables extends Seeder
             [
                 'table_id' => 4,
                 'type_field_id' => 1,
-                'text'     => 'HEADERS_TABLES.NAME',
-                'value'    => 'title',
-                'sortable' => 1,
-                'width'    => '',
-                'fixed'    => 0,
+                'text'      => 'HEADERS_TABLES.ID',
+                'value'     => 'id',
+                'sortable'  => 1,
+                'width'     => '50',
+                'fixed'     => 0,
                 'alignment' => 0,
                 'order'     => 1
             ],
             [
                 'table_id' => 4,
                 'type_field_id' => 1,
-                'text'     => 'HEADERS_TABLES.CATEGORY',
-                'value'    => 'categoryName',
-                'sortable' => 1,
-                'width'    => '200',
-                'fixed'    => 0,
+                'text'      => 'HEADERS_TABLES.NAME',
+                'value'     => 'title',
+                'sortable'  => 1,
+                'width'     => '',
+                'fixed'     => 0,
                 'alignment' => 0,
                 'order'     => 2
             ],
             [
                 'table_id' => 4,
                 'type_field_id' => 1,
-                'text'     => 'HEADERS_TABLES.USER_CREATED',
-                'value'    => 'userName',
-                'sortable' => 1,
-                'width'    => '200',
-                'fixed'    => 0,
+                'text'      => 'HEADERS_TABLES.CATEGORY',
+                'value'     => 'categoryName',
+                'sortable'  => 1,
+                'width'     => '200',
+                'fixed'     => 0,
                 'alignment' => 0,
                 'order'     => 3
             ],
             [
                 'table_id' => 4,
                 'type_field_id' => 1,
-                'text'     => 'HEADERS_TABLES.TAGS',
-                'value'    => 'tags',
-                'sortable' => 1,
-                'width'    => '200',
-                'fixed'    => 0,
+                'text'      => 'HEADERS_TABLES.USER_CREATED',
+                'value'     => 'userName',
+                'sortable'  => 1,
+                'width'     => '200',
+                'fixed'     => 0,
                 'alignment' => 0,
                 'order'     => 4
             ],
             [
                 'table_id' => 4,
-                'type_field_id' => 1,
-                'text'     => 'HEADERS_TABLES.SIZE',
-                'value'    => 'size',
-                'sortable' => 1,
-                'width'    => '200',
-                'fixed'    => 0,
+                'type_field_id' => 6,
+                'text'      => 'HEADERS_TABLES.TAGS',
+                'value'     => 'tags',
+                'sortable'  => 1,
+                'width'     => '200',
+                'fixed'     => 0,
                 'alignment' => 0,
                 'order'     => 5
+            ],
+            [
+                'table_id' => 4,
+                'type_field_id' => 1,
+                'text'      => 'HEADERS_TABLES.SIZE (MB)',
+                'value'     => 'sizeMB',
+                'sortable'  => 1,
+                'width'     => '200',
+                'fixed'     => 0,
+                'alignment' => 0,
+                'order'     => 6
             ],
             [
                 'table_id'      => 4,
@@ -77,7 +88,7 @@ class MediaHeadersTables extends Seeder
                 'width'         => '200',
                 'fixed'         => 0,
                 'alignment'     => 0,
-                'order'         => 6
+                'order'         => 7
             ],
             [
                 'table_id' => 4,
@@ -88,7 +99,7 @@ class MediaHeadersTables extends Seeder
                 'width'    => '',
                 'fixed'    => 0,
                 'alignment' => 0,
-                'order'     => 7
+                'order'     => 9
             ],
             [
                 'table_id' => 4,
@@ -99,7 +110,7 @@ class MediaHeadersTables extends Seeder
                 'width'     => '200',
                 'fixed'     => 0,
                 'alignment' => 0,
-                'order'     => 8
+                'order'     => 10
             ],
         ];
 

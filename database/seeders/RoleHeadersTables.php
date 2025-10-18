@@ -14,15 +14,26 @@ class RoleHeadersTables extends Seeder
     {
         $data = [
             [
-                'table_id' => 2,
+                'table_id'      => 2,
                 'type_field_id' => 1,
-                'text'     => 'HEADERS_TABLES.ROLE',
-                'value'    => 'name',
-                'sortable' => 1,
-                'width'    => '',
-                'fixed'    => 0,
-                'alignment' => 0,
-                'order'     => 1
+                'text'          => 'HEADERS_TABLES.ID',
+                'value'         => 'id',
+                'sortable'      => 1,
+                'width'         => '50',
+                'fixed'         => 0,
+                'alignment'     => 0,
+                'order'         => 1
+            ],
+            [
+                'table_id'      => 2,
+                'type_field_id' => 1,
+                'text'          => 'HEADERS_TABLES.ROLE',
+                'value'         => 'name',
+                'sortable'      => 1,
+                'width'         => '',
+                'fixed'         => 0,
+                'alignment'     => 0,
+                'order'         => 2
             ],
         ];
 

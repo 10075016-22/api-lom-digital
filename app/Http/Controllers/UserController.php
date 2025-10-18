@@ -214,7 +214,8 @@ class UserController extends Controller
                 $aUpdate = [ // array for update
                     'name'      => $request->name,
                     'fullname'  => $request->fullname,
-                    'email'     => $request->email
+                    'email'     => $request->email,
+                    'status'    => $request->status
                 ];
                 if(!is_null($password)) {
                     $aUpdate['password'] = $password;

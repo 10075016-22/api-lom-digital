@@ -47,6 +47,7 @@ class MediaFileController extends Controller
                     ->map(function($item) {
                         $item->categoryName = $item->category->name;
                         $item->userName = $item->user->name;
+                        $item->sizeMB = round($item->size / 1024 / 1024, 2) . ' MB';
                         $item->url = Storage::disk('media_files')->url($item->path);
                         $item->statusString = $item->status == 1 ? 'Activo' : 'Inactivo';
                         return $item;
@@ -55,6 +56,7 @@ class MediaFileController extends Controller
                 $data = MediaFile::with(['user', 'category'])->orderBy('id', 'DESC')->get()->map(function($item) {
                     $item->categoryName = $item->category->name;
                     $item->userName = $item->user->name;
+                    $item->sizeMB = round($item->size / 1024 / 1024, 2) . ' MB';
                     $item->url = Storage::disk('media_files')->url($item->path);
                     $item->statusString = $item->status == 1 ? 'Activo' : 'Inactivo';
                     return $item;

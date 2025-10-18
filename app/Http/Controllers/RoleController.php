@@ -93,8 +93,10 @@ class RoleController extends Controller
     public function show(string $id)
     {
         try {
-            $roles = Role::whereId($id)->get();
-            return $this->response->success($roles);
+            $role = Role::with(['permissions' => function($query) {
+                $query->select('id', 'name');
+            }])->find($id);
+            return $this->response->success($role);
         } catch (\Throwable $th) {
             return $this->response->error('An error has occurred');
         }
@@ -106,10 +108,22 @@ class RoleController extends Controller
     public function update(Request $request, string $id)
     {
         try {
-            $role = Role::whereId($id)->update($request->all());
-            return $this->response->success($role);
+            // En el request llega name:string y permissions:array de ids de permisos
+            $role = Role::find($id);
+
+            if (!$role) {
+                return $this->response->error('El rol no existe');
+            }
+
+            $role->update([
+                'name' => $request->name
+            ]);
+
+            $role->syncPermissions($request->permissions); // aunque llegue vacio
+
+            return $this->response->success($role, 'Perfil actualizado correctamente');
         } catch (\Throwable $th) {
-            return $this->response->error('An error has occurred');
+            return $this->response->error('An error has occurred' . $th->getMessage());
         }
     }
 

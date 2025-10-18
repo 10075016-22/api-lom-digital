@@ -15,15 +15,26 @@ class UserHeadersTables extends Seeder
         // users headers
         $data = [
             [
-                'table_id' => 1,
+                'table_id'      => 1,
                 'type_field_id' => 1,
-                'text'     => 'HEADERS_TABLES.USER',
-                'value'    => 'name',
+                'text'     => 'HEADERS_TABLES.ID',
+                'value'    => 'id',
                 'sortable' => 1,
-                'width'    => '',
+                'width'    => '50',
                 'fixed'    => 0,
                 'alignment' => 0,
                 'order'     => 1
+            ],
+            [
+                'table_id' => 1,
+                'type_field_id' => 1,
+                'text'      => 'HEADERS_TABLES.USER',
+                'value'     => 'name',
+                'sortable'  => 1,
+                'width'     => '',
+                'fixed'     => 0,
+                'alignment' => 0,
+                'order'     => 2
             ],
             [
                 'table_id' => 1,
@@ -34,7 +45,7 @@ class UserHeadersTables extends Seeder
                 'width'    => '',
                 'fixed'    => 0,
                 'alignment' => 0,
-                'order'     => 2
+                'order'     => 3
             ],
             [
                 'table_id' => 1,
@@ -45,7 +56,7 @@ class UserHeadersTables extends Seeder
                 'width'    => '',
                 'fixed'    => 0,
                 'alignment' => 0,
-                'order'     => 3
+                'order'     => 4
             ],
             [
                 'table_id' => 1,
@@ -56,7 +67,7 @@ class UserHeadersTables extends Seeder
                 'width'    => '',
                 'fixed'    => 0,
                 'alignment' => 0,
-                'order'     => 4
+                'order'     => 5
             ],
             [
                 'table_id' => 1,
@@ -67,7 +78,7 @@ class UserHeadersTables extends Seeder
                 'width'    => '',
                 'fixed'    => 0,
                 'alignment' => 0,
-                'order'     => 5
+                'order'     => 6
             ],
             
         ];
