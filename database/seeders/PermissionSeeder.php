@@ -40,6 +40,10 @@ class PermissionSeeder extends Seeder
                 'alias' => 'Editar usuarios'
             ],
             [
+                'name'  => 'usuarios-ver',
+                'alias' => 'Ver usuario específico'
+            ],
+            [
                 'name'  => 'usuarios-eliminar',
                 'alias' => 'Eliminar usuarios'
             ],
@@ -50,6 +54,10 @@ class PermissionSeeder extends Seeder
             [
                 'name'  => 'perfil-listar',
                 'alias' => 'Listar perfil'
+            ],
+            [
+                'name'  => 'perfil-ver',
+                'alias' => 'Ver perfil específico'
             ],
             [
                 'name'  => 'perfil-crear',
@@ -72,6 +80,10 @@ class PermissionSeeder extends Seeder
                 'alias' => 'Listar categorías'
             ],
             [
+                'name'  => 'categorias-ver',
+                'alias' => 'Ver categoría específica'
+            ],
+            [
                 'name'  => 'categorias-crear',
                 'alias' => 'Crear categorías'
             ],
@@ -90,6 +102,10 @@ class PermissionSeeder extends Seeder
             [
                 'name'  => 'multimedia-listar',
                 'alias' => 'Listar multimedia'
+            ],
+            [
+                'name'  => 'multimedia-ver',
+                'alias' => 'Ver multimedia específica'
             ],
             [
                 'name'  => 'multimedia-crear',
