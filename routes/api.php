@@ -42,6 +42,7 @@ Route::middleware([JwtMiddleware::class])->group(function () {
 
         // media files
         Route::get("/media-files/datatable", [MediaFileController::class, 'indexDatatable']);
+        Route::post("/media-files/{id}", [MediaFileController::class, 'update']); // usamos el metodo update con post para obtener correctamente los archivos del formData
         Route::resource("/media-files", MediaFileController::class);
 
 

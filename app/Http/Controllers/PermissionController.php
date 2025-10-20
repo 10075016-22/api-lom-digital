@@ -6,6 +6,7 @@ use App\Interface\ResponseClass;
 use App\Models\HeadersTable;
 use App\Models\Table;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Spatie\Permission\Models\Permission;
 
 class PermissionController extends Controller
@@ -23,6 +24,19 @@ class PermissionController extends Controller
     {
         try {
             $permissions = Permission::get();
+            
+            // Agregar información del grupo para cada permiso
+            $permissions->each(function($permission) {
+                $groupPivot = DB::table('group_permission_pivots')
+                    ->join('group_permissions', 'group_permission_pivots.group_permission_id', '=', 'group_permissions.id')
+                    ->where('group_permission_pivots.permission_id', $permission->id)
+                    ->select('group_permissions.name as group_name', 'group_permissions.description as group_description')
+                    ->first();
+                
+                $permission->group_name = $groupPivot ? $groupPivot->group_name : null;
+                $permission->group_description = $groupPivot ? $groupPivot->group_description : null;
+            });
+            
             return $this->response->success($permissions);
         } catch (\Throwable $th) {
             return $this->response->error('An error has occurred');
@@ -36,6 +50,18 @@ class PermissionController extends Controller
             $table = Table::whereId($params['nIdTable'])->first() ?? (Object) [];
             $headers = HeadersTable::whereTableId($params['nIdTable'])->orderBy('order')->get();
             $data = Permission::get();
+            
+            // Agregar información del grupo para cada permiso
+            $data->each(function($permission) {
+                $groupPivot = DB::table('group_permission_pivots')
+                    ->join('group_permissions', 'group_permission_pivots.group_permission_id', '=', 'group_permissions.id')
+                    ->where('group_permission_pivots.permission_id', $permission->id)
+                    ->select('group_permissions.name as group_name', 'group_permissions.description as group_description')
+                    ->first();
+                
+                $permission->group_name = $groupPivot ? $groupPivot->group_name : null;
+                $permission->group_description = $groupPivot ? $groupPivot->group_description : null;
+            });
 
             return $this->response->success([
                 'data'  => $data,

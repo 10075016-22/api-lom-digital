@@ -43,9 +43,7 @@ class MediaFile extends Model
         }
 
         // Construir URL usando el disco configurado
-        /** @var \Illuminate\Filesystem\FilesystemAdapter $disk */
-        $disk = Storage::disk('media_files');
-        return $disk->url($path);
+        return Storage::disk('media_files')->url($path);
     }
 
     protected $casts = [

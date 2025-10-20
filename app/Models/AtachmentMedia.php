@@ -16,6 +16,7 @@ class AtachmentMedia extends Model
         'title',
         'description',
         'path',
+        'type',
         'status'
     ];
 

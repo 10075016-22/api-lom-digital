@@ -81,6 +81,12 @@ class MediaFileController extends Controller
     public function store(Request $request)
     {
         try { 
+            // Aumentar límites para archivos grandes
+            ini_set('upload_max_filesize', '500M');
+            ini_set('post_max_size', '500M');
+            ini_set('max_execution_time', 600);
+            ini_set('memory_limit', '512M');
+            
             // categoria
             $category = Categorie::find($request->category_id);
             if (!$category) {
@@ -88,11 +94,18 @@ class MediaFileController extends Controller
             }
             
             // subir archivo a la storage categoria/nombre_archivo
-            if (!$request->hasFile('file')) {
-                return $this->response->error('File not found');
+            $allFiles = $request->allFiles();
+            if (!isset($allFiles['file'])) {
+                return $this->response->error('File not found. Available files: ' . json_encode(array_keys($allFiles)));
             }
 
-            $file = $request->file('file');
+            $file = $allFiles['file'];
+            
+            // Verificar si el archivo es válido
+            if (!$file->isValid()) {
+                return $this->response->error('File upload error: ' . $file->getError() . ' - Size: ' . $file->getSize() . ' bytes');
+            }
+
             $path = $file->store($category->name, 'media_files');
 
             // validamos que en el formData del request exista un campo attachments 
@@ -127,13 +140,14 @@ class MediaFileController extends Controller
                         'title'         => $attachment['title'],
                         'description'   => $attachment['description'],
                         'path'          => $attachmentPath,
+                        'type'          => $attachment['type'],
                     ]);
                 }
             }
 
             return $this->response->success($mediaFile);
         } catch (\Throwable $th) {
-            return $this->response->error('An error has occurred'.$th->getMessage());
+            return $this->response->error('An error has occurred '.$th->getMessage());
         }
     }
 
@@ -143,7 +157,7 @@ class MediaFileController extends Controller
     public function show($id)
     {
         try {
-            $mediaFile = MediaFile::with('user', 'category')->find($id);
+            $mediaFile = MediaFile::with(['user', 'category', 'attachments'])->find($id);
             if (!$mediaFile) {
                 return $this->response->notFound('Media file not found');
             }
@@ -160,9 +174,128 @@ class MediaFileController extends Controller
     public function update(Request $request, $id)
     {
         try {
+            // Aumentar límites para archivos grandes
+            ini_set('upload_max_filesize', '500M');
+            ini_set('post_max_size', '500M');
+            ini_set('max_execution_time', 600);
+            ini_set('memory_limit', '512M');
+
+            $mediaFile = MediaFile::find($id);
+            if (!$mediaFile) {
+                return $this->response->notFound('Media file not found');
+            }
+            $originalPath = $mediaFile->path;
+            $originalAttachments = $mediaFile->attachments()->get();
+
+            $newPath = $originalPath;
+            $newAttachments = [];
+
+            // Procesar archivo principal si se envía
+            $allFiles = $request->allFiles();
+            $file = null;
+            if (isset($allFiles['file'])) {
+                $category = Categorie::find($request->category_id ?? $mediaFile->category_id);
+                if (!$category) {
+                    return $this->response->notFound('Category not found');
+                }
+
+                $file = $allFiles['file'];
+                if (!$file->isValid()) {
+                    return $this->response->error('File upload error: ' . $file->getError());
+                }
+
+                $newPath = $file->store($category->name, 'media_files');
+            }
+
+            // Procesar attachments si se envían
+            if ($request->has('attachments')) {
+                $category = Categorie::find($request->category_id ?? $mediaFile->category_id);
+                if (!$category) {
+                    return $this->response->notFound('Category not found');
+                }
+
+                foreach ($request->attachments as $attachment) {
+                    if ($attachment['type'] == 'file' && isset($attachment['file'])) {
+                        $attachmentFile = $attachment['file'];
+                        if (!$attachmentFile->isValid()) {
+                            return $this->response->error('Attachment upload error: ' . $attachmentFile->getError());
+                        }
+                        $attachmentPath = $attachmentFile->store($category->name, 'media_files');
+                    } else {
+                        $attachmentPath = $attachment['url'];
+                    }
+
+                    $newAttachments[] = [
+                        'media_file_id' => $mediaFile->id,
+                        'title' => $attachment['title'],
+                        'description' => $attachment['description'],
+                        'path' => $attachmentPath,
+                        'type' => $attachment['type'],
+                    ];
+                }
+            }
+
+            // Actualizar registro principal
+            $updateData = [
+                'title' => $request->title ?? $mediaFile->title,
+                'description' => $request->description ?? $mediaFile->description,
+                'tags' => $request->tags ?? $mediaFile->tags,
+            ];
+
+            if ($request->has('category_id')) {
+                $updateData['category_id'] = $request->category_id;
+            }
+
+            if (isset($allFiles['file']) && $file) {
+                $updateData['path'] = $newPath;
+                $updateData['size'] = $file->getSize();
+            }
+
+            $mediaFile->update($updateData);
+
+            // Actualizar attachments si se envían
+            if ($request->has('attachments')) {
+                // Borrar attachments anteriores
+                $this->deleteAttachments($originalAttachments);
+                
+                // Crear nuevos attachments
+                foreach ($newAttachments as $attachmentData) {
+                    AtachmentMedia::create($attachmentData);
+                }
+            }
+
+            // Borrar archivo anterior si se actualizó
+            if (isset($allFiles['file']) && $originalPath !== $newPath) {
+                $this->deleteFile($originalPath);
+            }
+
+            $response = $mediaFile->fresh(['user', 'category', 'attachments']);
+
+            return $this->response->success($response, 'Archivo multimedia actualizado correctamente');
 
         } catch (\Throwable $th) {
-            return $this->response->error('An error has occurred');
+            return $this->response->error('An error has occurred: ' . $th->getMessage());
+        }
+    }
+
+    /**
+     * Delete file from storage
+     */
+    private function deleteFile($path)
+    {
+        if ($path && Storage::disk('media_files')->exists($path)) {
+            Storage::disk('media_files')->delete($path);
+        }
+    }
+
+    /**
+     * Delete attachments from storage and database
+     */
+    private function deleteAttachments($attachments)
+    {
+        foreach ($attachments as $attachment) {
+            $this->deleteFile($attachment->path);
+            $attachment->delete();
         }
     }
 

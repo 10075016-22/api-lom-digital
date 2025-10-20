@@ -28,6 +28,9 @@ class DatabaseSeeder extends Seeder
             CategoryHeadersTables::class,
             MediaHeadersTables::class,
 
+            // permisos
+            GroupPermissionSeeder::class,
+
 
         ]);
     }

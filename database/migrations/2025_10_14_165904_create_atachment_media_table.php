@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('title')->comment('Título del archivo adjunto');
             $table->string('description')->comment('Descripción del archivo adjunto');
             $table->string('path')->comment('Ruta del archivo adjunto link o storage local');
+            $table->string('type')->comment('Tipo de archivo adjunto file o link');
             $table->unsignedTinyInteger('status')->default(1)->comment('Estado del archivo adjunto 1: Activo, 0: Inactivo');
             $table->timestamps();
             $table->softDeletes();
