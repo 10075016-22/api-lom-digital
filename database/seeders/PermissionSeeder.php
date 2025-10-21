@@ -80,10 +80,6 @@ class PermissionSeeder extends Seeder
                 'alias' => 'Listar categorías'
             ],
             [
-                'name'  => 'categorias-ver',
-                'alias' => 'Ver categoría específica'
-            ],
-            [
                 'name'  => 'categorias-crear',
                 'alias' => 'Crear categorías'
             ],

@@ -67,18 +67,17 @@ class GroupPermissionSeeder extends Seeder
             // Categorías (ID: 4)
             ['group_permission_id' => 4, 'permission_id' => 15], // menu-categorias
             ['group_permission_id' => 4, 'permission_id' => 16], // categorias-listar
-            ['group_permission_id' => 4, 'permission_id' => 17], // categorias-ver
-            ['group_permission_id' => 4, 'permission_id' => 18], // categorias-crear
-            ['group_permission_id' => 4, 'permission_id' => 19], // categorias-editar
-            ['group_permission_id' => 4, 'permission_id' => 20], // categorias-eliminar
+            ['group_permission_id' => 4, 'permission_id' => 17], // categorias-crear
+            ['group_permission_id' => 4, 'permission_id' => 18], // categorias-editar
+            ['group_permission_id' => 4, 'permission_id' => 19], // categorias-eliminar
             
             // Multimedia (ID: 5)
-            ['group_permission_id' => 5, 'permission_id' => 21], // menu-multimedia
-            ['group_permission_id' => 5, 'permission_id' => 22], // multimedia-listar
-            ['group_permission_id' => 5, 'permission_id' => 23], // multimedia-ver
-            ['group_permission_id' => 5, 'permission_id' => 24], // multimedia-crear
-            ['group_permission_id' => 5, 'permission_id' => 25], // multimedia-editar
-            ['group_permission_id' => 5, 'permission_id' => 26], // multimedia-eliminar
+            ['group_permission_id' => 5, 'permission_id' => 20], // menu-multimedia
+            ['group_permission_id' => 5, 'permission_id' => 21], // multimedia-listar
+            ['group_permission_id' => 5, 'permission_id' => 22], // multimedia-ver
+            ['group_permission_id' => 5, 'permission_id' => 23], // multimedia-crear
+            ['group_permission_id' => 5, 'permission_id' => 24], // multimedia-editar
+            ['group_permission_id' => 5, 'permission_id' => 25], // multimedia-eliminar
         ];
 
         // Insertar relaciones en la tabla pivot
