@@ -32,7 +32,8 @@ class MailController extends Controller
              * message
              */
 
-            $emailTo = "sell3.thiago@gmail.com";
+            // $emailTo = "sell3.thiago@gmail.com";
+            $emailTo = env('EMAIL_TO');
             $subject = "Formulario de contacto - Lom Digital";
 
             Resend::emails()->send([
