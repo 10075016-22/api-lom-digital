@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AcademyDashboardController;
 use App\Http\Controllers\CategorieController;
+use App\Http\Controllers\MailController;
 use App\Http\Controllers\MediaFileController;
 use App\Http\Controllers\ModuleController;
 use App\Http\Controllers\PermissionController;
@@ -14,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::post('/login', [UserController::class, 'authenticate']);
+Route::post("/v1/contact", [MailController::class, "sendEmail"]);
 
 // Grouping usign jwt middleware
 Route::middleware([JwtMiddleware::class])->group(function () {
@@ -48,6 +50,7 @@ Route::middleware([JwtMiddleware::class])->group(function () {
 
         // dashboard academy
         Route::get("/dashboard/academy", [AcademyDashboardController::class, "cardIndicatorsDashboard"]);
+
     });
 
     // associated to tables
